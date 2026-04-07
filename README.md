@@ -1,31 +1,71 @@
-[![Build Status](https://travis-ci.org/microservices-demo/microservices-demo.svg?branch=master)](https://travis-ci.org/microservices-demo/microservices-demo)
+# Sock Shop Integration Testing Assignment
 
-# DEPRECATED: Sock Shop : A Microservice Demo Application
+## 🚀 Overview
+This project demonstrates running the Sock Shop microservices application using Docker Compose and validating service interactions through integration testing.
 
-The application is the user-facing part of an online shop that sells socks. It is intended to aid the demonstration and testing of microservice and cloud native technologies.
+---
 
-It is built using [Spring Boot](http://projects.spring.io/spring-boot/), [Go kit](http://gokit.io) and [Node.js](https://nodejs.org/) and is packaged in Docker containers.
+## ✅ Output 1: Understanding of the Problem
 
-You can read more about the [application design](./internal-docs/design.md).
+The goal is to run a microservices-based application and verify that multiple services (catalogue, cart, user, etc.) work together correctly through integration testing.
 
-## Deployment Platforms
+---
 
-The [deploy folder](./deploy/) contains scripts and instructions to provision the application onto your favourite platform. 
+## ✅ Output 2: Technical Approach
 
-Please let us know if there is a platform that you would like to see supported.
+- Set up the Sock Shop application using Docker Compose
+- Verified all services are running and accessible
+- Performed API-based integration testing using curl
+- Simulated real user flows:
+  - Fetching products
+  - Adding items to cart
+  - Verifying cart data
 
-## Bugs, Feature Requests and Contributing
+---
 
-We'd love to see community contributions. We like to keep it simple and use Github issues to track bugs and feature requests and pull requests to manage contributions. See the [contribution information](.github/CONTRIBUTING.md) for more information.
+## 🧪 Integration Tests
 
-## Screenshot
+### 1. Fetch Catalogue
+```bash
+curl http://localhost/catalogue
 
-![Sock Shop frontend](https://github.com/microservices-demo/microservices-demo.github.io/raw/master/assets/sockshop-frontend.png)
+2. Add Item to Cart (Session-based)
+curl -c cookies.txt http://localhost
 
-## Visualizing the application
+curl -b cookies.txt -c cookies.txt \
+-X POST http://localhost/cart \
+-H "Content-Type: application/json" \
+-d '{"id":"03fef6ac-1896-4ce8-bd69-b798f85c6e0b"}'
+3. Verify Cart
+curl -b cookies.txt http://localhost/cart
+🔑 Key Insight
 
-Use [Weave Scope](http://weave.works/products/weave-scope/) or [Weave Cloud](http://cloud.weave.works/) to visualize the application once it's running in the selected [target platform](./deploy/).
+The cart service depends on session-based cookies.
+Integration tests must persist cookies across requests to simulate real user behavior.
 
-![Sock Shop in Weave Scope](https://github.com/microservices-demo/microservices-demo.github.io/raw/master/assets/sockshop-scope.png)
+🤖 Vibe Coding Evaluation
+~70% of the task (setup, API testing, writing test flows) can be completed using AI tools
+~30% requires human reasoning (debugging session handling, understanding service interactions)
+📊 Patterns Identified
+Microservices communication
+API-driven architecture
+Real-world debugging scenarios
+Session-based workflows
+🛠 Suggested Improvements
+Add debugging scenarios (like session issues)
+Include edge cases in test design
+Separate AI-assisted vs logic-heavy tasks
+🚀 Future Improvements
+Automate tests using Jest or Supertest
+Integrate tests into CI/CD pipeline
 
-## 
+---
+
+# ✅ After updating
+
+Run:
+
+```bash
+git add README.md
+git commit -m "Updated README - final submission"
+git push
